@@ -20,14 +20,12 @@ const Splash = () => {
   const { execute, initialized: initializedPeopleInfo } = usePeople();
 
   useEffect(() => {
-    (async () => {
-      await execute(DEFAULT_PAGE_SIZE);
-    })();
-  });
+    execute(DEFAULT_PAGE_SIZE);
+  }, []);
 
   useEffect(() => {
     if (initializedPeopleInfo) router.push('/home');
-  }, []);
+  }, [initializedPeopleInfo]);
 
   return (
     <PageHeader
@@ -59,6 +57,10 @@ const Splash = () => {
       </Layout>
     </PageHeader>
   );
+
+  return (
+    <p>Here at the splash...</p>
+  )
 };
 
 export default Splash;

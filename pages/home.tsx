@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PageHeader } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 
 import { withContextInitialized } from '../components/hoc';
 import { usePeople } from '../components/hooks/usePeople';
 
-import Header, { DEFAULT_PAGE_SIZE } from '../components/molecules/ListHeader';
+import Header from '../components/molecules/ListHeader';
 import GenericList from '../components/organisms/GenericList';
 import PersonDisplay from '../components/molecules/PersonDisplay';
 
 import { DISPLAY_MODE_CARD, Person } from '../constants/types';
 import { useRouter } from 'next/router';
 import { ResponsiveListCard } from '../constants';
-import { useEffect } from 'react';
+import useDisplayMode, { COLUMNS_VIEW_MODE, LIST_VIEW_MODE } from '../components/hooks/useDisplayMode';
+import usePageSize from '../components/hooks/usePageSize';
 
 const Home = () => {
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [displayMode, setDisplayMode] = useState(DISPLAY_MODE_CARD);
+  const { displayMode, setDisplayMode } = useDisplayMode();
+  const { pageSize, setPageSize } = usePageSize();
+
   const router = useRouter();
   const { data: people, totalItems, loading, execute } = usePeople();
 
-  const isCard = displayMode === DISPLAY_MODE_CARD;
+  const isCard = displayMode === COLUMNS_VIEW_MODE;
   const Component = isCard ? PersonDisplay.Card : PersonDisplay.ListItem;
 
   return (
@@ -36,8 +38,8 @@ const Home = () => {
         )}
         Header={
           <Header
-            displayMode={displayMode}
-            onDiplayModeChange={(newDisplayMode) => setDisplayMode(newDisplayMode as any)}
+            displayMode={displayMode === COLUMNS_VIEW_MODE ? 'card' : 'item'}
+            onDiplayModeChange={(newDisplayMode) => setDisplayMode(newDisplayMode === 'card' ? COLUMNS_VIEW_MODE : LIST_VIEW_MODE)}
             pageSize={pageSize}
             title={`Displaying ${people.length} of ${totalItems}`}
             onPageSizeChange={setPageSize}

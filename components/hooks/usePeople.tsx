@@ -19,6 +19,7 @@ export const usePeople = () => {
           quantity: size,
           page: currentPage,
         });
+
         setCurrentPage(currentPage + 1);
         if (peopleData.initialized) peopleData.append(data, totalItems);
         else peopleData.initialize(data, totalItems);

@@ -30,7 +30,7 @@ const Header = ({
 }: HeaderProps) => (
   <Space direction="horizontal">
     <Typography.Text>{title}</Typography.Text>
-    <Select defaultValue={pageSize} onChange={onPageSizeChange}>
+    <Select defaultValue={pageSize} onChange={onPageSizeChange} value={pageSize}>
       {PAGE_SIZE_OPTIONS.map((value) => (
         <Select.Option key={value} value={value}>
           {value}
